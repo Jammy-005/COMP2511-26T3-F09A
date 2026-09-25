@@ -11,6 +11,8 @@ public class Employee {
      * @param salary The employee's yearly salary in dollars.
      */
     public Employee(String name, int salary) {
+        // this is bad
+        // because if I decide to change logic, I have to change this as well.
         this.name = name;
         this.salary = salary;
     }
@@ -49,5 +51,33 @@ public class Employee {
      */
     public void setSalary(int salary) {
         this.salary = salary;
+    }
+
+    /**
+     * Returns the employee's identifier string.
+     * 
+     * @return The employee's attributes.
+     */
+    @Override 
+    public String toString() {
+        // this is bad
+        // return "Employee" + "[name=" + name + ", salary=" + salary + "]";
+
+        // this is good
+        return getClass().getSimpleName() + "[name=" + name + ", salary=" + salary + "]";
+    }
+
+    @Override 
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        } else if (obj == null) {
+            return false;
+        } else if (getClass() != obj.getClass()) {
+            return false;
+        }
+
+        Employee other = (Employee) obj;
+        return name.equals(other.name) && salary == other.salary;
     }
 }
