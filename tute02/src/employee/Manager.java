@@ -66,10 +66,10 @@ public class Manager extends Employee {
     }
 
     public static void main(String[] args) {
-        Employee employee1 = new Employee("boss man", 100);
+        // Employee employee1 = new Employee("boss man", 100);
         Employee employee2 = new Manager("boss man", 100);
         
-        System.out.println(employee1.equals(employee2));
+        System.out.println(employee2.toString());
 
     }
 }
