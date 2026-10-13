@@ -67,7 +67,7 @@ public class Employee {
         return getClass().getSimpleName() + "[name=" + name + ", salary=" + salary + "]";
     }
 
-    @Override 
+    @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;

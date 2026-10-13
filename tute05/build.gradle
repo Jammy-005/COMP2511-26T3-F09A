@@ -1,0 +1,82 @@
+plugins {
+    id 'org.barfuin.gradle.jacocolog' version '3.1.0' apply false
+}
+
+// Applies to both the starter code (./src) and the solutions (./solutions/src)
+allprojects {
+    apply plugin: 'java'
+    apply plugin: 'jacoco'
+    apply plugin: 'org.barfuin.gradle.jacocolog'
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        implementation 'org.json:json:20231013'
+        implementation 'org.skyscreamer:jsonassert:1.2.3'
+
+        // Tests live alongside the code in src/, so JUnit is on the main classpath
+        implementation 'org.junit.jupiter:junit-jupiter:5.11.4'
+        testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    }
+
+    // Code lives in src/ rather than src/main/java so file paths match the tutorial links
+    sourceSets {
+        main {
+            java.srcDirs = ['src']
+            resources.srcDirs = []
+        }
+        test {
+            java.srcDirs = []
+            resources.srcDirs = []
+        }
+    }
+
+    tasks.named('test') {
+        useJUnitPlatform()
+        failOnNoDiscoveredTests = false
+        testClassesDirs = sourceSets.main.output.classesDirs
+        classpath = sourceSets.main.runtimeClasspath + configurations.testRuntimeClasspath
+    }
+
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(21)
+        }
+    }
+
+    jacocoTestReport {
+        reports {
+            xml.required = true
+            csv.required = false
+        }
+        dependsOn test
+    }
+
+    jacocoTestCoverageVerification {
+        dependsOn jacocoTestReport
+    }
+
+    task coverage {
+        description("Generate coverage report and check if above threshold if it exists")
+        group("verification")
+        dependsOn('jacocoTestCoverageVerification')
+    }
+
+    task compile {
+        description("Checks if main code can compile with test code")
+        group = 'verification'
+        dependsOn 'testClasses'
+    }
+
+    jacocoLogTestCoverage {
+        logAlways = true
+        counters {
+            showClassCoverage = false
+            showMethodCoverage = false
+            showInstructionCoverage = false
+            showComplexityCoverage = false
+        }
+    }
+}
