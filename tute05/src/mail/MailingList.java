@@ -32,7 +32,13 @@ public class MailingList implements Receiver {
 
     @Override
     public void receiveMail(Mail mail) {
-        // TODO: implement me!
+        if (!verifiedUsers.contains(mail.getSender())) {
+            System.out.println("Error: " + mail.getSender() + " is not a verified user");
+            return;
+        }
+
+        for (Receiver receiver : users) {
+            receiver.receiveMail(mail);
+        }
     }
-    
 }

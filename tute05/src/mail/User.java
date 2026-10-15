@@ -18,12 +18,12 @@ public class User implements Receiver, Sender{
 
     @Override 
     public void sendMail(Receiver user, String subject, String content) {
-        // TODO: implement me
+        user.receiveMail(new Mail(this, subject, content));
     }
 
     @Override 
     public void receiveMail(Mail mail) {
-        // TODO: implement me
+        System.out.println(name + " received: " + mail);
     }
     
 }

@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test;
  * @author Nick Patrikeos
  */
 public class CalculatorTest {
-    /*
     @Test
     public void testAddition() {
         Expression e = new AdditionExpression(new Number(1), new Number(2));
@@ -50,5 +49,4 @@ public class CalculatorTest {
         ));
         assertEquals(-24.25, calculator.calculate(), 0.001);
     }
-    */
 }
