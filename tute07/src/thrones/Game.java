@@ -7,9 +7,15 @@ import java.util.Scanner;
 import thrones.characters.Dragon;
 import thrones.characters.King;
 import thrones.characters.Queen;
+import thrones.characters.factories.MetalFactory;
+import thrones.characters.factories.PlasticFactory;
+import thrones.characters.factories.WoodFactory;
 import thrones.characters.metal.MetalDragon;
 import thrones.characters.plastic.PlasticQueen;
+import thrones.characters.wood.WoodDragon;
 import thrones.characters.wood.WoodKing;
+import thrones.decorators.ChainMailDecorator;
+import thrones.decorators.HelmetDecorator;
 
 /**
  * Plays the game with a command line interface.
@@ -51,13 +57,20 @@ public class Game {
     public static void main(String[] args) {
         Game game = new Game();
 
-        King k = new WoodKing(0, 0);
+        MetalFactory metalFactory = new MetalFactory();
+        PlasticFactory plasticFactory = new PlasticFactory(12);
+        WoodFactory woodFactory = new WoodFactory(7);
+
+        King k = woodFactory.createKing();
         game.addCharacter(k);
 
-        Dragon d = new MetalDragon(0, 1);
-        // ChainMailDecorator cm = new ChainMailDecorator(d);
-        // game.addCharacter(cm);
-        Queen q = new PlasticQueen(2, 2);
+
+        Dragon d = metalFactory.createDragon();
+        ChainMailDecorator cm = new ChainMailDecorator(d);
+        Character helmetChainMail = new HelmetDecorator(cm);
+        Character helmetHelmetChainMail = new HelmetDecorator(helmetChainMail);
+        game.addCharacter(helmetHelmetChainMail);
+        Queen q = plasticFactory.createQueen();
         game.addCharacter(q);
         game.play();
     }
